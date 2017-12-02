@@ -1,0 +1,6 @@
+To install all required Python libraries
+'pip install requirements.txt'
+To install all required Javascript libraries
+'npm install'
+To build the React project (and listen to future changes)
+'webpack --watch'
