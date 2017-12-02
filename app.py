@@ -5,8 +5,12 @@ import json
 import re
 import requests
 import sys
-from urllib import parse
 import psycopg2
+
+if sys.version_info >= (3, 0):
+    import urllib.parse as parse
+else:
+  import urlparse as parse
 
 app = Flask(__name__)
 
@@ -19,9 +23,9 @@ def serve_app():
     return render_template('app.html')
 
 def connect_to_db():
-    db_url = os.environ["DATABASE_URL"] + '/?sslmode=require'
+    db_url = os.environ["DATABASE_URL"] # + '/?sslmode=require'
     parse.uses_netloc.append("postgres")
-    url = parse.urlparse(os.environ["DATABASE_URL"])
+    url = parse.urlparse(db_url)
 
     conn = psycopg2.connect(
         database=url.path[1:],
