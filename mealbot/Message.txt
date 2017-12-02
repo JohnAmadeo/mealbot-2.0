@@ -1,0 +1,13 @@
+Hey, you!
+
+This is an example message. Put any text you'd like here! But just make sure to have the proper GroupList text as shown below.
+
+Your group for this week is:
+{GroupList}
+
+Feel free to reply all in this thread for scheduling. I'm a robot, so I can only read 1's and 0's.
+
+Blessings,
+YSC Meal Bot
+
+P.S. If you would like to unsubscribe from this, send Kevin (kevin.hu@yale.edu) an email!

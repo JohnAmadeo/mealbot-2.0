@@ -1,0 +1,4 @@
+Name	Email	Year	College	Fresh
+Kevin Hu 	kevin.hu@yale.edu	18	DC	Old
+Colleen McCormack	colleen.mccormack@yale.edu	17	BR	Old
+Sang Yun	sang.yun@yale.edu	93	Old

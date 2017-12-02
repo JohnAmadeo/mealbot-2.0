@@ -1,0 +1,25 @@
+  Setup
+
+There must be three files present:
+1.	YSCLunch.py - The actual program itself. This is where the code magic is.
+
+2.	YSCList.txt - The list of individuals to be paired. It's a tab-separated text file, and must include at the least columns for name and email.
+
+3.	Message.txt - The text sent in the email. There must be in the text {GroupList} for the pairings to appear in the text.
+
+
+  Run it
+
+a.       Start cmd
+
+b.       Navigate to the YSCLunch folder using “cd”
+
+c.       Run “python YSCLunch.py < YSCList.txt” to test to make sure it runs. It will print the pairings on the screen. Do a quick look to make sure everyone’s there.
+
+d.       Run python YSCLunch.py < YSCList.txt
+
+				i. Continue following the instructions to send the emails! There will be a query that asks you for a subject line.
+
+				ii. You can include in the command -mc "Factor" in order to match people that have different entries in the "Factor". For example:
+					python YSCLunch.py < YSCList.txt -mc "College" will guarantee matches where people are in different colleges. You can include any factors
+					you'd like to pair by adding a column with the appropriate name in YSCList.txt and making sure each individual has an entry. 
