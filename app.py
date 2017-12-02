@@ -5,7 +5,8 @@ import json
 import re
 import requests
 import sys
-import urllib.parse
+from urllib import parse
+import psycopg2
 
 app = Flask(__name__)
 
@@ -17,8 +18,29 @@ def serve_index():
 def serve_app():
     return render_template('app.html')
 
+def connect_to_db():
+    db_url = os.environ["DATABASE_URL"] + '/?sslmode=require'
+    parse.uses_netloc.append("postgres")
+    url = parse.urlparse(os.environ["DATABASE_URL"])
+
+    conn = psycopg2.connect(
+        database=url.path[1:],
+        user=url.username,
+        password=url.password,
+        host=url.hostname,
+        port=url.port
+    )
+
+    cursor = conn.cursor()
+    # cursor.execute("CREATE TABLE test (name varchar(40));")
+    cursor.execute("INSERT INTO test VALUES ('John');")
+    cursor.execute("SELECT * FROM test;")
+    print (cursor.fetchone())
+    conn.commit()
+
 if __name__ == '__main__':
     # app.run(debug=True)
+    connect_to_db()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
 
