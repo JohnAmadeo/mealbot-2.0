@@ -8,7 +8,15 @@ import Request from 'react-promise';
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { files: [] };
   }
+
+  onDrop(files) {
+    this.setState({
+      files
+    });
+  }
+
   render() {
     return (
       <div className='Main'>
@@ -47,7 +55,7 @@ class Basic extends React.Component {
       }
     }
 
-    Request(options)
+    // Request(options)
 
 
     this.setState({
@@ -80,3 +88,5 @@ class Basic extends React.Component {
     );
   }
 }
+
+module.exports = Main;

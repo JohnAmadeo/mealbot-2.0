@@ -1,5 +1,5 @@
-var webpack = require('webpack');  
-module.exports = {  
+var webpack = require('webpack');
+module.exports = {
   entry: {
     "app": "./static/js/app.js",
     "login": "./static/js/login.js"

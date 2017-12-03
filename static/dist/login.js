@@ -46,7 +46,7 @@
 
 	'use strict';
 
-	var _Main = __webpack_require__(171);
+	var _Main = __webpack_require__(160);
 
 	var _Main2 = _interopRequireDefault(_Main);
 
@@ -19765,6 +19765,84 @@
 /* 160 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(159);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _superagent = __webpack_require__(161);
+
+	var _superagent2 = _interopRequireDefault(_superagent);
+
+	var _v = __webpack_require__(168);
+
+	var _v2 = _interopRequireDefault(_v);
+
+	var _store = __webpack_require__(171);
+
+	var _store2 = _interopRequireDefault(_store);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Main = function Main(props) {
+	  return _react2.default.createElement('div', { className: 'Main container' });
+	};
+
+	// class LoginBox extends React.Component {
+	//   constructor(props) {
+	//     super(props);
+
+	//     {/* Wipe old session data */}
+	//     Store.session.remove('userID');
+	//     Store.session.remove('acceptedFilesData');
+
+	//     this.onFBLogin = this.onFBLogin.bind(this);
+	//     this.onGuestLogin = this.onGuestLogin.bind(this);
+	//   }
+	//   onFBLogin() {
+	//     FB.login(function(response) {
+	//       if(response.authResponse) {
+	//         console.log("Yay! Login was successful");
+	//         FB.api('/me', function(response) {
+	//           Store.session.set('userID', response.id);
+	//           window.location.href="/app";   
+	//         }); 
+	//       }
+	//       else {
+	//         console.log('User cancelled login or did not fully authorize.');
+	//       }
+	//     });
+	//   }
+	//   onGuestLogin() {
+	//     window.location.href="/app";
+	//   }
+	//   render() {
+	//     return (
+	//       <div className="LoginBox">
+	//         <button type="button" className="btn btn-default fb"
+	//           onClick={this.onFBLogin}>
+	//           Log in with Facebook
+	//         </button>
+	//         <button type="button" className="btn btn-default guest"
+	//           onClick={this.onGuestLogin}>
+	//           Use as Guest (PDFs not stored)
+	//         </button>   
+	//       </div>
+	//     )
+	//   }
+	// }
+
+	module.exports = Main;
+
+/***/ }),
+/* 161 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	/**
 	 * Root reference for iframes.
 	 */
@@ -19779,11 +19857,11 @@
 	  root = this;
 	}
 
-	var Emitter = __webpack_require__(161);
-	var RequestBase = __webpack_require__(162);
-	var isObject = __webpack_require__(163);
-	var ResponseBase = __webpack_require__(164);
-	var Agent = __webpack_require__(166);
+	var Emitter = __webpack_require__(162);
+	var RequestBase = __webpack_require__(163);
+	var isObject = __webpack_require__(164);
+	var ResponseBase = __webpack_require__(165);
+	var Agent = __webpack_require__(167);
 
 	/**
 	 * Noop.
@@ -20686,7 +20764,7 @@
 
 
 /***/ }),
-/* 161 */
+/* 162 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -20855,7 +20933,7 @@
 
 
 /***/ }),
-/* 162 */
+/* 163 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20863,7 +20941,7 @@
 	/**
 	 * Module of mixed-in functions shared between node and client code
 	 */
-	var isObject = __webpack_require__(163);
+	var isObject = __webpack_require__(164);
 
 	/**
 	 * Expose `RequestBase`.
@@ -21555,7 +21633,7 @@
 
 
 /***/ }),
-/* 163 */
+/* 164 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -21576,7 +21654,7 @@
 
 
 /***/ }),
-/* 164 */
+/* 165 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21585,7 +21663,7 @@
 	 * Module dependencies.
 	 */
 
-	var utils = __webpack_require__(165);
+	var utils = __webpack_require__(166);
 
 	/**
 	 * Expose `ResponseBase`.
@@ -21716,7 +21794,7 @@
 
 
 /***/ }),
-/* 165 */
+/* 166 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -21793,7 +21871,7 @@
 
 
 /***/ }),
-/* 166 */
+/* 167 */
 /***/ (function(module, exports) {
 
 	function Agent() {
@@ -21819,11 +21897,11 @@
 
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var rng = __webpack_require__(168);
-	var bytesToUuid = __webpack_require__(169);
+	var rng = __webpack_require__(169);
+	var bytesToUuid = __webpack_require__(170);
 
 	function v4(options, buf, offset) {
 	  var i = buf && offset || 0;
@@ -21854,7 +21932,7 @@
 
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {// Unique ID creation requires a high quality random # generator.  In the
@@ -21894,7 +21972,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports) {
 
 	/**
@@ -21923,7 +22001,7 @@
 
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports) {
 
 	/*! store2 - v2.5.9 - 2017-10-26
@@ -22163,84 +22241,6 @@
 
 	})(this, this.define);
 
-
-/***/ }),
-/* 171 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(159);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _superagent = __webpack_require__(160);
-
-	var _superagent2 = _interopRequireDefault(_superagent);
-
-	var _v = __webpack_require__(167);
-
-	var _v2 = _interopRequireDefault(_v);
-
-	var _store = __webpack_require__(170);
-
-	var _store2 = _interopRequireDefault(_store);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var Main = function Main(props) {
-	  return _react2.default.createElement('div', { className: 'Main container' });
-	};
-
-	// class LoginBox extends React.Component {
-	//   constructor(props) {
-	//     super(props);
-
-	//     {/* Wipe old session data */}
-	//     Store.session.remove('userID');
-	//     Store.session.remove('acceptedFilesData');
-
-	//     this.onFBLogin = this.onFBLogin.bind(this);
-	//     this.onGuestLogin = this.onGuestLogin.bind(this);
-	//   }
-	//   onFBLogin() {
-	//     FB.login(function(response) {
-	//       if(response.authResponse) {
-	//         console.log("Yay! Login was successful");
-	//         FB.api('/me', function(response) {
-	//           Store.session.set('userID', response.id);
-	//           window.location.href="/app";   
-	//         }); 
-	//       }
-	//       else {
-	//         console.log('User cancelled login or did not fully authorize.');
-	//       }
-	//     });
-	//   }
-	//   onGuestLogin() {
-	//     window.location.href="/app";
-	//   }
-	//   render() {
-	//     return (
-	//       <div className="LoginBox">
-	//         <button type="button" className="btn btn-default fb"
-	//           onClick={this.onFBLogin}>
-	//           Log in with Facebook
-	//         </button>
-	//         <button type="button" className="btn btn-default guest"
-	//           onClick={this.onGuestLogin}>
-	//           Use as Guest (PDFs not stored)
-	//         </button>   
-	//       </div>
-	//     )
-	//   }
-	// }
-
-	module.exports = Main;
 
 /***/ })
 /******/ ]);

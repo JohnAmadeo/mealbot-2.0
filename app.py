@@ -22,6 +22,10 @@ def serve_index():
 def serve_app():
     return render_template('app.html')
 
+@app.route('/names', methods=['POST'])
+def process_names_csv():
+    return
+
 def connect_to_db():
     db_url = os.environ["DATABASE_URL"] # + '/?sslmode=require'
     parse.uses_netloc.append("postgres")
@@ -47,4 +51,3 @@ if __name__ == '__main__':
     connect_to_db()
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
-
