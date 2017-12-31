@@ -15,11 +15,9 @@ else:
 app = Flask(__name__)
 
 @app.route('/')
+@app.route('/callback')
+@app.route('/dashboard')
 def serve_index():
-    return render_template('login.html')
-
-@app.route('/app')
-def serve_app():
     return render_template('app.html')
 
 @app.route('/names', methods=['POST'])
