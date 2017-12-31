@@ -1,4 +1,4 @@
-import Main from './app/Main';
+import Main from './login/Main';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom'

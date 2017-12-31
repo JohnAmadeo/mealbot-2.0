@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom'
 import UUID from 'uuid/v4';
 import Store from 'store2';
 import Dropzone from 'react-dropzone';
-import Request from 'react-promise';
 
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { files: [] };
+    this.state = {
+      files: []
+    };
   }
 
   onDrop(files) {
@@ -20,7 +21,10 @@ class Main extends React.Component {
   render() {
     return (
       <div className='Main'>
-        <Basic/>
+        Hello World!
+        <Dropzone onDrop={this.onDrop.bind(this)}>
+          <p>Try dropping some files here, or click to select files to upload.</p>
+        </Dropzone>
       </div>
     )
   }

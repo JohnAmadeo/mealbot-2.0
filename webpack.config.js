@@ -2,7 +2,8 @@ var webpack = require('webpack');
 module.exports = {
   entry: {
     "app": "./static/js/app.js",
-    "login": "./static/js/login.js"
+    "login": "./static/js/login.js",
+    "onboarding": "./static/js/onboarding.js"
   },
   output: {
     path: __dirname + '/static/dist',
