@@ -6,6 +6,8 @@ import Dropzone from 'react-dropzone';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
+// import Onboarding from './Onboarding';
+
 import Auth from '../Auth.js';
 import createHistory from 'history/createBrowserHistory';
 
@@ -28,21 +30,31 @@ class Landing extends Component {
   }
 };
 
+class Onboarding extends Component {
+
+  render() {
+    return (
+      <h1>Onboarding</h1>
+    );
+  }
+
+}
 
 class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: true
+      isLoggedIn: true
     };
   }
 
   onLogout = () => {
-    auth.logout(() => { this.setState({ loggedIn: false }) });
+    auth.logout(() => { this.setState({ isLoggedIn: false }) });
   }
 
   render() {
-    return this.state.loggedIn ? (
+    const { auth } = this.props;
+    return this.state.isLoggedIn ? (
       <div>
         <h1>Dashboard</h1>
         <Button className="btn btn-default" onClick={this.onLogout}>Log Out</Button>
@@ -56,22 +68,31 @@ class Dashboard extends Component {
 class Callback extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      isLoggedIn: false
-    };
   }
 
+  componentWillMount() {
+    this.handleAuthentication();
+  }
+
+  // Mark user as logged in and fetch user's profile information
   handleAuthentication = () => {
     if (/access_token|id_token|error/.test(this.props.location.hash)) {
-      auth.handleAuthentication(() => { this.setState({ isLoggedIn: true}) });
+      // setting up authentication upon login/sign up requires a
+      // chain of asynchronous actions; hence a promise chain is used
+      auth.getAuthTokens()
+        .then(auth.setSession)
+        .then(auth.getUserProfile)
+        .then(auth.isNewUser)
+        .then(auth.createUserAccount)
+        .then(this.props.setProfileInfo)
+        .catch(err => console.log(err));
     }
   }
 
   render() {
-    this.handleAuthentication();
-    return this.state.isLoggedIn ? (
-      <Redirect to='/dashboard' />
-    ): (
+    return this.props.isLoggedIn ? (
+      <Redirect to='/' />
+    ) : (
       <div>Loading...</div>
     );
   }
@@ -80,23 +101,51 @@ class Callback extends Component {
 export default class Main extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      profile: {
+        email: null,
+        picture: null
+      },
+      isLoggedIn: false,
+      isNewUser: false
+    }
+  }
+
+  setProfileInfo = (profile) => {
+    this.setState({
+      profile: {
+        email: profile.email,
+        picture: profile.picture
+      },
+      isLoggedIn: true,
+      isNewUser: profile.is_new_user,
+    });
   }
 
   render() {
     // opens to '/' path at first
     // if already authenticated, redirect to Dashboard component at '/dashboard'
     // if not, show Landing component. After log in/sign up, show Loading component and redirect to Dashboard component at '/dashboard' when ready
+
     return (
       <BrowserRouter>
         <div>
           <Route exact path='/' render={(props) => {
-            return auth.isAuthenticated() ?
-              <Redirect to='/dashboard'/> :
-              <Landing auth={auth} {...props} />;
+            if (!auth.isAuthenticated()) {
+              return <Landing auth={auth} {...props} />;
+            }
+            else if (this.state.isNewUser) {
+              return <Redirect to='/onboarding'/>;
+            }
+            else {
+              return <Redirect to='/dashboard'/>;
+            }
           }}/>
           <Route path='/onboarding' render={(props) => <Onboarding auth={auth} {...props} />}/>
           <Route path='/dashboard' render={(props) => <Dashboard auth={auth} {...props} />}/>
-          <Route path='/callback' render={(props) => <Callback auth={auth} {...props}/>}/>
+          <Route path='/callback' render={(props) =>
+            <Callback auth={auth} {...props} isLoggedIn={this.state.isLoggedIn} setProfileInfo={this.setProfileInfo}/>}
+          />
         </div>
       </BrowserRouter>
     );
