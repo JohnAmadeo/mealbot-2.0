@@ -6,7 +6,7 @@ import Dropzone from 'react-dropzone';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
-// import Onboarding from './Onboarding';
+import Onboarding from './Onboarding';
 
 import Auth from '../Auth.js';
 import createHistory from 'history/createBrowserHistory';
@@ -29,16 +29,6 @@ class Landing extends Component {
     )
   }
 };
-
-class Onboarding extends Component {
-
-  render() {
-    return (
-      <h1>Onboarding</h1>
-    );
-  }
-
-}
 
 class Dashboard extends Component {
   constructor(props) {
@@ -118,6 +108,7 @@ export default class Main extends Component {
         picture: profile.picture
       },
       isLoggedIn: true,
+      // a 'new user' is a user who has signed up and not yet finished onboarding
       isNewUser: profile.is_new_user,
     });
   }
@@ -141,8 +132,21 @@ export default class Main extends Component {
               return <Redirect to='/dashboard'/>;
             }
           }}/>
-          <Route path='/onboarding' render={(props) => <Onboarding auth={auth} {...props} />}/>
-          <Route path='/dashboard' render={(props) => <Dashboard auth={auth} {...props} />}/>
+          <Route path='/onboarding' render={(props) => {
+            return <Onboarding auth={auth} {...props} />;
+            // if (this.state.isNewUser) {
+            //   return <Onboarding auth={auth} {...props} />;
+            // }
+            // else if (auth.isAuthenticated()) {
+            //   return <Redirect to='/dashboard'/>;
+            // }
+            // else {
+            //   return <Redirect to='/'/>;
+            // }
+          }}/>
+          <Route path='/dashboard' render={(props) =>
+            <Dashboard auth={auth} {...props} profile={this.state.profile}/>}
+          />
           <Route path='/callback' render={(props) =>
             <Callback auth={auth} {...props} isLoggedIn={this.state.isLoggedIn} setProfileInfo={this.setProfileInfo}/>}
           />
