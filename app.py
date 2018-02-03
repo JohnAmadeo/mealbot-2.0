@@ -1,6 +1,6 @@
 # imports
 from __future__ import print_function
-from flask import Flask, render_template, request, redirect, make_response, Response
+from flask import Flask, render_template, request, make_response, Response
 import os
 import json
 import requests
@@ -147,6 +147,23 @@ def process_members_csv(csv_file, clubID):
                 (str(uuid.uuid4()), row[0], row[1], clubID, json.dumps(metadata_json)))
 
     conn.commit()
+
+@app.route('/club/timing', methods=['POST'])
+def process_club_timing():
+    cursor = conn.cursor()
+    data = request.get_json()
+
+    if data['interval'] == 'AM':
+        hour = str(data['hour']) + ':00:00'
+    elif data['interval'] == 'PM':
+        hour = str(data['hour'] + 12) + ':00:00'
+
+    # need valid fields check
+    cursor.execute("UPDATE clubs SET day = %s, hour = %s WHERE club_id = %s",
+        (data['day'], hour, data['clubID']))
+
+    conn.commit()
+    return Response(status=200)
 
 if __name__ == '__main__':
     # app.run(debug=True)
