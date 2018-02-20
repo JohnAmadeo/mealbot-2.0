@@ -17,7 +17,6 @@ class Onboarding extends Component {
     this.state = {
       clubCreationSucceeded: false,
       clubID: 'abcd', // temporary dummy clubID!
-      // clubID: ''
       memberState: {
         uploaded: false,
         showError: false,

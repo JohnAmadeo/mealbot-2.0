@@ -10,6 +10,7 @@ import uuid
 import csv
 import pandas as pd
 import numpy as np
+import time
 
 if sys.version_info >= (3, 0):
     import urllib.parse as parse
@@ -161,6 +162,17 @@ def process_club_timing():
     # need valid fields check
     cursor.execute("UPDATE clubs SET day = %s, hour = %s WHERE club_id = %s",
         (data['day'], hour, data['clubID']))
+
+    conn.commit()
+    return Response(status=200)
+
+@app.route('/club/email_intro', methods=['POST'])
+def process_club_email_intro():
+    cursor = conn.cursor()
+    data = request.get_json()
+
+    cursor.execute("UPDATE clubs SET email_intro = %s WHERE club_id = %s",
+        (data['emailIntro'], data['clubID']))
 
     conn.commit()
     return Response(status=200)
