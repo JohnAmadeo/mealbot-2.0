@@ -49,9 +49,10 @@ class Callback extends Component {
       auth.getAuthTokens()
         .then(auth.setSession)
         .then(auth.getUserProfile)
+        .then(auth.setUserProfile)
         .then(auth.isNewUser)
         .then(auth.createUserAccount)
-        .then(this.props.setProfileInfo)
+        .then(this.props.setLoginInfo)
         .catch(err => console.log(err));
     }
   }
@@ -70,8 +71,8 @@ export default class Main extends Component {
     super(props);
     this.state = {
       profile: {
-        email: null,
-        picture: null
+        email: localStorage.getItem('profile_email') || null,
+        picture: localStorage.getItem('profile_picture') || null
       },
       isLoggedIn: auth.isAuthenticated() ? true : false,
       isNewUser: false
@@ -82,7 +83,7 @@ export default class Main extends Component {
     this.setState({ isLoggedIn: false });
   }
 
-  setProfileInfo = (profile) => {
+  setLoginInfo = (profile) => {
     this.setState({
       profile: {
         email: profile.email,
@@ -131,7 +132,7 @@ export default class Main extends Component {
           }}/>
           <Route path='/callback' render={(props) => {
             const mergedProps = {...this.state, ...props};
-            return <Callback auth={auth} {...mergedProps} setProfileInfo={this.setProfileInfo}/>;
+            return <Callback auth={auth} {...mergedProps} setLoginInfo={this.setLoginInfo}/>;
           }}/>
         </div>
       </BrowserRouter>

@@ -14,7 +14,6 @@ export default class Auth {
       responseType: 'token id_token',
       scope: 'openid profile email'
     });
-    this.userProfile = null;
   }
 
   // immediately resolves if the user is now new and no user account
@@ -53,7 +52,6 @@ export default class Auth {
     return new Promise((resolve, reject) => {
       this.auth0.client.userInfo(accessToken, (err, profile) => {
         if (profile) {
-          this.userProfile = profile;
           resolve(profile);
         }
         else {
@@ -122,9 +120,17 @@ export default class Auth {
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+    localStorage.removeItem('profile_email');
+    localStorage.removeItem('profile_picture');
     // navigate to the home route
     onSuccess();
     history.replace('/');
+  }
+
+  setUserProfile = (profile) => {
+    localStorage.setItem('profile_email', profile.email);
+    localStorage.setItem('profile_picture', profile.picture);
+    return new Promise((resolve, reject) => { resolve(profile); });
   }
 
   setSession = (authResult) => {
