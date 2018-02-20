@@ -83,7 +83,6 @@ export default class Main extends Component {
   }
 
   setProfileInfo = (profile) => {
-    console.log('setting profile info');
     this.setState({
       profile: {
         email: profile.email,
