@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 import Onboarding from './Onboarding';
+import Dashboard from './Dashboard';
 
 import Auth from '../Auth.js';
 import createHistory from 'history/createBrowserHistory';
@@ -30,34 +31,10 @@ class Landing extends Component {
   }
 };
 
-class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoggedIn: true
-    };
-  }
-
-  onLogout = () => {
-    auth.logout(() => { this.setState({ isLoggedIn: false }) });
-  }
-
-  render() {
-    const { auth } = this.props;
-    return this.state.isLoggedIn ? (
-      <div>
-        <h1>Dashboard</h1>
-        <Button className="btn btn-default" onClick={this.onLogout}>Log Out</Button>
-      </div>
-    ) : (
-      <Redirect to='/'/>
-    );
-  }
-}
-
 class Callback extends Component {
   constructor(props) {
     super(props);
+    console.log(this.props);
   }
 
   componentWillMount() {
@@ -96,12 +73,17 @@ export default class Main extends Component {
         email: null,
         picture: null
       },
-      isLoggedIn: false,
+      isLoggedIn: auth.isAuthenticated() ? true : false,
       isNewUser: false
     }
   }
 
+  onLogout = () => {
+    this.setState({ isLoggedIn: false });
+  }
+
   setProfileInfo = (profile) => {
+    console.log('setting profile info');
     this.setState({
       profile: {
         email: profile.email,
@@ -133,127 +115,27 @@ export default class Main extends Component {
             }
           }}/>
           <Route path='/onboarding' render={(props) => {
-            return <Onboarding auth={auth} {...props} />;
-            // if (this.state.isNewUser) {
-            //   return <Onboarding auth={auth} {...props} />;
-            // }
-            // else if (auth.isAuthenticated()) {
-            //   return <Redirect to='/dashboard'/>;
-            // }
-            // else {
-            //   return <Redirect to='/'/>;
-            // }
+            if (this.state.isNewUser) {
+              return <Onboarding auth={auth} {...props} />;
+            }
+            else if (auth.isAuthenticated()) {
+              return <Redirect to='/dashboard'/>;
+            }
+            else {
+              return <Redirect to='/'/>;
+            }
           }}/>
-          <Route path='/dashboard' render={(props) =>
-            <Dashboard auth={auth} {...props} profile={this.state.profile}/>}
-          />
-          <Route path='/callback' render={(props) =>
-            <Callback auth={auth} {...props} isLoggedIn={this.state.isLoggedIn} setProfileInfo={this.setProfileInfo}/>}
-          />
+          <Route path='/dashboard' render={(props) => {
+            // mergedProps is the main component's state and the Route component's props merged
+            const mergedProps = {...this.state, ...props};
+            return <Dashboard auth={auth} {...mergedProps} onLogout={this.onLogout}/>
+          }}/>
+          <Route path='/callback' render={(props) => {
+            const mergedProps = {...this.state, ...props};
+            return <Callback auth={auth} {...mergedProps} setProfileInfo={this.setProfileInfo}/>;
+          }}/>
         </div>
       </BrowserRouter>
     );
   }
 };
-
-
-// class Main extends React.Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       files: [],
-//       accessToken: null
-//     };
-//   }
-//
-//   render() {
-//     return (
-//       <div>
-//         <button type="button" className="btn btn-default">Basic</button>
-//         <button type="button" className="btn btn-default">Basic</button>
-//       </div>
-//     )
-//   }
-
-  // onDrop(files) {
-  //   this.setState({
-  //     files
-  //   });
-  // }
-  //
-  // render() {
-  //   return (
-  //     <div className='Main'>
-  //       Hello World!
-  //       <Dropzone onDrop={this.onDrop.bind(this)}>
-  //         <p>Try dropping some files here, or click to select files to upload.</p>
-  //       </Dropzone>
-  //     </div>
-  //   )
-  // }
-// }
-//
-// module.exports = Main;
-//
-// class Basic extends React.Component {
-//   constructor() {
-//     super()
-//     this.state = { files: [] }
-//   }
-//
-//   onDrop(files) {
-//     console.log(files);
-//     if (!isValidUpload(files)) {
-//       console.log('Error!!!! File uploaded is not a ".csv"');
-//       return;
-//     }
-//
-//     var options = {
-//       method: 'POST',
-//       uri: '/names',
-//       formData: {
-//         file: {
-//           value: fs.createReadStream(files[0].name),
-//           options: {
-//             filename: files[0].name,
-//             contentType:'/csv'
-//           }
-//         }
-//       }
-//     }
-//
-//     // Request(options)
-//
-//
-//     this.setState({
-//       files: files
-//     });
-//   }
-//
-//   isValidUpload(files) {
-//     return file[0].name.endsWith('.csv')
-//   }
-//
-//   render() {
-//     return (
-//       <section>
-//         <div className="dropzone">
-//           <Dropzone multiple={false} onDrop={this.onDrop.bind(this)}>
-//             <p>Try dropping some files here, or click to select files to upload.</p>
-//           </Dropzone>
-//         </div>
-//         <aside>
-//           <h2>Dropped files</h2>
-//           <ul>
-//             {
-//               this.state.files.map(f => <li key={f.name}>{f.name} - {f.size} bytes</li>)
-//
-//             }
-//           </ul>
-//         </aside>
-//       </section>
-//     );
-//   }
-// }
-//
-// module.exports = Main;

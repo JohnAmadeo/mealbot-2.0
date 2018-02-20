@@ -40,35 +40,6 @@ export default class Auth {
     }
   }
 
-  // resolves a user profile object that has information indicating
-  // whether the user is new
-  isNewUser = (profile) => {
-    console.log(profile);
-    return new Promise((resolve, reject) => {
-      // resolve(profile);
-      axios.get('/user', {
-        params: {
-          email: profile.email
-        }
-      })
-      .then((response) => {
-        profile.is_new_user = false;
-        resolve(profile);
-      })
-      .catch((error) => {
-        const { status, data } = error.response;
-        if (status === 404 && data === 'User not found') {
-          console.log('isNewUser: resolving to profile');
-          profile.is_new_user = true;
-          resolve(profile);
-        }
-        else {
-          reject(error);
-        }
-      });
-    });
-  }
-
   getAccessToken = () => {
       const accessToken = localStorage.getItem('access_token');
       if (!accessToken) {
@@ -96,6 +67,7 @@ export default class Auth {
     return new Promise((resolve, reject) => {
       this.auth0.parseHash((err, authResult) => {
         console.log('fetched auth tokens');
+        console.log(authResult);
         if (authResult && authResult.accessToken && authResult.idToken) {
           resolve(authResult);
         }
@@ -111,6 +83,34 @@ export default class Auth {
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return new Date().getTime() < expiresAt;
+  }
+
+  // resolves a user profile object that has information indicating
+  // whether the user is new
+  isNewUser = (profile) => {
+    return new Promise((resolve, reject) => {
+      // resolve(profile);
+      axios.get('/user', {
+        params: {
+          email: profile.email
+        }
+      })
+      .then((response) => {
+        profile.is_new_user = false;
+        resolve(profile);
+      })
+      .catch((error) => {
+        const { status, data } = error.response;
+        if (status === 404 && data === 'User not found') {
+          console.log('isNewUser: resolving to profile');
+          profile.is_new_user = true;
+          resolve(profile);
+        }
+        else {
+          reject(error);
+        }
+      });
+    });
   }
 
   login = () => {
