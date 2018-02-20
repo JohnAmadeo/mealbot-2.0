@@ -27,11 +27,13 @@
 # -- Does your student list file contain a column for email address titled "Email"?
 # -- Is the meal bot GMail account configured to allow less secure apps to login?
 
+from __future__ import print_function
 import random
 import math
 import argparse
 import smtplib
 import csv
+import io
 
 # Defaults - can be overridden with arguments.
 DEFAULT_STUDENT_FILE      = "YSCList.txt"
@@ -65,7 +67,7 @@ def formStudList(student_file):
 	# Initialize list to hold students
 	studList = []
 
-	with open(student_file, newline='') as csvfile:
+	with io.open(student_file, newline='') as csvfile:
 		reader = csv.DictReader(csvfile, delimiter=STUDFILE_DELIMITER)
 		for row in reader:
 			studList.append(Student(row))
